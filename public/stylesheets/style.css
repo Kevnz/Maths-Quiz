@@ -1,0 +1,37 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.controls {
+	padding:10px;
+}
+.controls a  {
+	padding:4px;
+	font-size:140%;
+}
+.controls a.selected {
+	border:1px solid blue;
+	background-color:#DADADA;
+	padding:3px;
+}
+#gameboard div {
+	font-size:140%;
+}
+#gameboard input {
+	width:40px;
+	font-size:120%;
+}
+#score{
+	position:absolute;
+	top:20px;
+	right:50px;
+	border:1px dashed green;
+	padding:5px;
+	margin:5px;
+	min-width:50px;
+	font-size:200%;
+}

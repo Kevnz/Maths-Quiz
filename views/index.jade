@@ -1,0 +1,25 @@
+#body
+	h1= heading
+	
+	#container
+		#numbers.controls
+			a(href: '#', id: '1') 1
+			a(href: '#', id: '2') 2
+			a(href: '#', id: '3') 3
+			a(href: '#', id: '4') 4
+			a(href: '#', id: '5') 5
+			a(href: '#', id: '6') 6
+			a(href: '#', id: '7') 7
+			a(href: '#', id: '8') 8
+			a(href: '#', id: '9') 9
+			a(href: '#', id: '10') 10
+		#actions.controls
+			a(href:'#', id: 'start') Start
+			a(href:'#', id: 'stop') Stop
+		#operators.controls
+			a(href: '#', id='multiply') Multiplication
+			a(href: '#', id='divide') Division
+		hr
+		#gameboard
+	#score 0
+script(src='/javascripts/game.js') 
