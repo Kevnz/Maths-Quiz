@@ -35,3 +35,6 @@ a {
 	min-width:50px;
 	font-size:200%;
 }
+.error{
+	border:dotted 1px red;
+}

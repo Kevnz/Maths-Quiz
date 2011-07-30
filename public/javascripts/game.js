@@ -31,7 +31,7 @@ YUI().use('event','node', function(Y){
 		var theMath = _getEquation(selArray);
 		var formula = Y.Node.create('<div class="formula-row">' + theMath + ' = ' + '</div>');
 		var answer = Y.Node.create('<input type="text" data-answer="' + eval(theMath) + '" />');
-		answer.on('blur', function(e){
+		var answerTheMath =  function(e){
 			Y.log(e.currentTarget.getAttribute('data-answer'));
 			Y.log(e.currentTarget.get('value'));
 			Y.log(e.currentTarget.getAttribute('data-answer') ==e.currentTarget.get('value'));
@@ -40,17 +40,22 @@ YUI().use('event','node', function(Y){
 				Y.one('#score').set('innerHTML', score);
 				e.currentTarget.setAttribute('disabled', 'disabled');
 				Y.log("score is " + score);
+				e.currentTarget.removeClass('error');
 				playTheGame(selArray)
 			}else{
-				//e.currentTarget.setClass('error');
 				score--;
-				Y.one('#score').set('innerHTML', score);
-			}
-			
-		});
-		answer.focus();
+				e.currentTarget.addClass('error');
+				e.currentTarget.set('value', '');
+				Y.one('#score').set('innerHTML', score); 
+			} 
+		}
+		var handleAnswerKeypress = Y.on('key', function(e) {
+        	answerTheMath(e);
+        	e.halt();
+    	}, answer, 'press:9,13', this);
 		formula.append(answer);
 		gameboard.prepend(formula);
+		answer.focus();
 		
 	}
 	
