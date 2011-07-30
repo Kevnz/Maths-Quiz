@@ -4,17 +4,33 @@ YUI().use('event','node', function(Y){
 	var _random = function  ( n ){
 	  return ( Math.floor ( Math.random ( ) * n ) );
 	};
-	var playTheGame = function(selArray){
-		var gameboard = Y.one('#gameboard');
-		
+	
+	var _getEquation = function(selArray){
+		var opArray = ['*', '/' ];
 		Y.log(mainArray.length);
 		Y.log(selArray.length);
 		var randomMain = mainArray[_random(mainArray.length )];
-		var randomSelected = selectedArray[_random(selArray.length  )];
-		
+		var randomSelected = selectedArray[_random(selArray.length - 1 )];
+		var selectedOperatorArray = [];
+		if(Y.one('a#multiply.selected')!==null ){
+			selectedOperatorArray.push(opArray[0]);
+		}
+		if(Y.one('a#divide.selected')!==null){
+			selectedOperatorArray.push(opArray[1]);
+		}
+		if(selectedOperatorArray.length==0){
+			selectedOperatorArray.push(opArray[0]);
+		}
+		var randomOperator = selectedOperatorArray[_random(selectedOperatorArray.length)];
 		//gameboard.set('innerHTML', randomMain + ' * ' + randomSelected + ' = ');
-		var formula = Y.Node.create('<div class="formula-row">' + randomMain + ' * ' + randomSelected + ' = ' + '</div>');
-		var answer = Y.Node.create('<input type="text" data-answer="' +(randomMain * randomSelected) + '" />');
+		return (randomMain + randomOperator + randomSelected);
+		
+	}
+	var playTheGame = function(selArray){
+		var gameboard = Y.one('#gameboard');
+		var theMath = _getEquation(selArray);
+		var formula = Y.Node.create('<div class="formula-row">' + theMath + ' = ' + '</div>');
+		var answer = Y.Node.create('<input type="text" data-answer="' + eval(theMath) + '" />');
 		answer.on('blur', function(e){
 			Y.log(e.currentTarget.getAttribute('data-answer'));
 			Y.log(e.currentTarget.get('value'));
@@ -38,22 +54,27 @@ YUI().use('event','node', function(Y){
 		
 	}
 	
-	Y.all('#numbers a').on('click', function(e){
-		Y.log(e);
-		Y.log(this);
-		e.currentTarget.toggleClass('selected');
-		e.preventDefault();
-	});
-	Y.one('#start').on('click', function(e){
-		selectedArray =[];
-		Y.all('.selected').each(function(node){
-			Y.log(node.get('id'));
-			selectedArray.push(parseInt(node.get('id'), 10));
+	Y.on('domready', function(){
+	
+		Y.all('#numbers a, #operators a').on('click', function(e){
+			Y.log(e);
+			Y.log(this);
+			e.currentTarget.toggleClass('selected');
+			e.preventDefault();
 		});
-		Y.log(selectedArray);
-		e.preventDefault();
 		
 		
-		playTheGame(selectedArray);
-	})
+		Y.one('#start').on('click', function(e){
+			selectedArray =[];
+			Y.all('.selected').each(function(node){
+				Y.log(node.get('id'));
+				selectedArray.push(parseInt(node.get('id'), 10));
+			});
+			Y.log(selectedArray);
+			e.preventDefault();
+			
+			
+			playTheGame(selectedArray);
+		});
+	}, this);
 });
